@@ -5,6 +5,9 @@
 
 	SQL = "SELECT CASE WHEN DOC_ID = 1 THEN SUBSTRING(DOCUMENTO,0,3)+'.'+SUBSTRING(DOCUMENTO,3,3)+'.'+SUBSTRING(DOCUMENTO,6,3)+'-'+SUBSTRING(DOCUMENTO,8,2) WHEN DOC_ID = 2 THEN SUBSTRING(DOCUMENTO,0,4)+'.'+SUBSTRING(DOCUMENTO,3,3)+'.'+SUBSTRING(DOCUMENTO,6,3)+'-'+SUBSTRING(DOCUMENTO,8,2) END AS DOCUMENTACAO, CASE WHEN CONT_ID = 1 THEN '('+SUBSTRING(CONTATO,1,2)+') '+SUBSTRING(CONTATO,3,5)+' - '+SUBSTRING(CONTATO,8,9) ELSE SUBSTRING(CONTATO,1,20)+'...' END AS CONTATOS, * FROM PESSOAS	"
 	set busca = session("conexao").execute(SQL)
+
+	response.write request.form("id")
+	response.end
 %>
 <!doctype html>
 <html lang="pt-BR">
@@ -27,14 +30,6 @@
     			}
     	}
     </style>
-    <script>
-    	function detalhes(id){
-    		let formulario = document.getElementById('fForm');
-    		formulario.id.value = id;
-	    	formulario.action = 'crud_detalhes.asp';
-	    	formulario.submit();
-    	}
-    </script>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -61,6 +56,9 @@
 	</nav>
 	<div class="container">
 		<div class="row">
+			<h1>
+				Detalhes
+			</h1>
 			<div class="col-md-10" style="margin: auto; margin-top: 5%;">
 				<table class="table text-center table-hover">
 					<thead>
