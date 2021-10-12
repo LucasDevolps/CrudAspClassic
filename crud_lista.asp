@@ -3,7 +3,7 @@
 		response.redirect "perda_de_sessao.asp"
 	end if
 
-	SQL = "SELECT * FROM PESSOAS"
+	SQL = "SELECT CASE WHEN DOC_ID = 1 THEN SUBSTRING(DOCUMENTO,0,3)+'.'+SUBSTRING(DOCUMENTO,3,3)+'.'+SUBSTRING(DOCUMENTO,6,3)+'-'+SUBSTRING(DOCUMENTO,8,2) WHEN DOC_ID = 2 THEN SUBSTRING(DOCUMENTO,0,4)+'.'+SUBSTRING(DOCUMENTO,3,3)+'.'+SUBSTRING(DOCUMENTO,6,3)+'-'+SUBSTRING(DOCUMENTO,8,2) END AS DOCUMENTACAO, CASE WHEN CONT_ID = 1 THEN '('+SUBSTRING(CONTATO,1,2)+') '+SUBSTRING(CONTATO,3,5)+' - '+SUBSTRING(CONTATO,8,9) ELSE SUBSTRING(CONTATO,1,20)+'...' END AS CONTATOS, * FROM PESSOAS	"
 	set busca = session("conexao").execute(SQL)
 %>
 <!doctype html>
@@ -20,6 +20,11 @@
     <style>
     	table tbody tr,td {
     		cursor: pointer;
+    	}
+    	@media only screen and (max-width: 600px) {
+    			table{
+    				width: 100%;
+    			}
     	}
     </style>
   </head>
@@ -65,9 +70,9 @@
 							    <tr>
 							    	<th scope="row"><%=busca.fields("pessoa_id")%></th>
 							      	<td><%=busca.fields("nome")%></td>
-							      	<td><%=busca.fields("documento")%></td>
+							      	<td><%=busca.fields("documentacao")%></td>
 							      	<td><%=busca.fields("endereco")%></td>
-							      	<td><%=busca.fields("contato")%></td>
+							      	<td><%=busca.fields("contatos")%></td>
 							    </tr>
 							    <%busca.movenext%>
 						    <%loop%>
