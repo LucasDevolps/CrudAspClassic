@@ -31,12 +31,32 @@
     	function detalhes(id){
     		let formulario = document.getElementById('fForm');
     		formulario.id.value = id;
-	    	formulario.action = 'crud_detalhes.asp';
+	    	formulario.action = 'crud_lista.asp';
 	    	formulario.submit();
+    	}
+    	function carrega(){
+    		//Validação da documentação
+    		let divRG = document.getElementById('DivRG');
+    		divRG.style.display = 'none';
+
+    		let divCPF = document.getElementById('DivCPF');
+    		divCPF.style.display = 'none';
+    	}
+    	function MostraDivDoc(tipoDoc){
+    		let divRG = document.getElementById('DivRG');
+    		let divCPF = document.getElementById('DivCPF');
+    		if(tipoDoc == 1){
+    			divRG.style.display = 'block';
+    			divCPF.style.display = 'none';    			
+    		}
+    		else if(tipoDoc == 2){
+    			divCPF.style.display = 'block';
+    			divRG.style.display = 'none';	
+    		}
     	}
     </script>
   </head>
-  <body>
+  <body onload="carrega();">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	  <a class="navbar-brand" href="crud_lista.asp">Inicio</a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,9 +113,74 @@
 						    <%end if%>
 						  </form>
 					</tbody>
-				</table>
+				</table>	
 			</div>
 		</div>
+		<div class="row">
+		  <div class="col-md-4"></div>
+		  <div class="col-md-4 offset-md-4">
+		  	<button class="btn btn-primary" data-toggle="modal" data-target="#InclusaoModal">Incluir novo registro</button>
+		  </div>
+		</div>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="InclusaoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Ficha de Inscrição</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <form name="FormModalInserir">
+						<div class="form-row">
+					    <div class="form-group col-md-4">
+					      <label for="InputOrdem">Ordem</label>
+					      <input type="number" class="form-control" id="InputOrdem" value="2" name="Ordem">
+					    </div>
+					    <div class="form-group col-md-8">
+					      <label for="InputNome">Nome</label>
+					      <input type="text" class="form-control" id="InputNome" name="Nome">
+					    </div>
+					  </div>
+					  <div class="form-row">
+					  	<div class="form-group col-md-4">
+					      <label for="TipoDocumento">Tipo de documento</label>
+					      <select id="TipoDocumento" class="form-control" name="TipoDocumento" onchange="MostraDivDoc(this.value)">
+					        <option value="" selected disabled>>> Selecione <<</option>
+					        <option value="1">RG</option>
+					        <option value="2">CPF</option>
+					      </select>
+					    </div>
+					    <div class="form-group col-md-8" id="DivRG">
+					    	<label for="Documentacao">Documentação</label>
+					    	<input type="text" class="form-control" id="Documentacao" name="Documentacao" value="" placeholder="xx.xxx.xxx-x">
+					    </div>
+					    <div class="form-group col-md-8" id="DivCPF">
+					    	<label for="Documentacao">Documentação</label>
+					    	<input type="text" class="form-control" id="Documentacao" name="Documentacao" value="xxx.xxx.xxx-xx">
+					    </div>
+					  </div>
+					  <div class="form-row">
+					  	<div class="form-group col-md-8">
+					      <label for="Endereco">Endereço</label>
+					      <input type="text" class="form-control" id="Endereco" name="Endereco">
+					    </div>
+					    <div class="form-group col-md-4" id="DivRG">
+					    	<label for="Contato">Contato</label>
+					    	<input type="text" class="form-control" id="Contato" name="Contato">
+					    </div>
+					  </div>
+					</form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
 	</div>
 
     <!-- Optional JavaScript -->
